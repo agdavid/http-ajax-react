@@ -11,12 +11,17 @@ class FullPost extends Component {
 
     componentDidUpdate () {
         if (this.props.id) {
-            axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`)
-                .then( response => {
-                    this.setState({
-                        loadedPost: response.data,
-                    })
-                });
+            // infinite loop caused by setState => componentDidUpdate => setState 
+            // add additional condition to setState
+            // only make request if: (1) no post selected; or (2) post selected and id is different
+            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
+                axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+                    .then( response => {
+                        this.setState({
+                            loadedPost: response.data,
+                        })
+                    });
+            }
         }
     };
 
