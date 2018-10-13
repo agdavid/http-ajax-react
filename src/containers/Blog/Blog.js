@@ -17,7 +17,7 @@ class Blog extends Component {
 
     // cause side effects after rendering component
     componentDidMount () {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('/posts')
             .then(response => {
                 // update state
                 const posts = response.data.slice(0,4);
